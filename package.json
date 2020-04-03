@@ -1,0 +1,27 @@
+{
+  "name": "scandisk-2.0",
+  "version": "2.0.0",
+  "description": "Visual Demo of Microsoft Scandisk for MS-DOS implemented with LitElement (WebComponents)",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel src/index.html --port 8080",
+    "build": "parcel build src/index.html -d build --public-url /scandisk-lit-element/ && gh-pages -d build"
+  },
+  "keywords": [
+    "scandisk",
+    "msdos",
+    "html",
+    "css",
+    "javascript",
+    "litelement",
+    "webcomponents"
+  ],
+  "author": "Manz",
+  "license": "ISC",
+  "devDependencies": {
+    "postcss-nesting": "^7.0.1"
+  },
+  "dependencies": {
+    "lit-element": "^2.3.1"
+  }
+}

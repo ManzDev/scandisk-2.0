@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono");
+
+:root {
+  --blueColor: #0028aa;
+  --grayColor: #bcbdaa;
+  --darkgrayColor: #525252;
+  --cyanColor: #59ffff;
+  --yellowColor: #fffa51;
+  --emeraldColor: #184343;
+  --lightEmeraldColor: #38a6a6;
+  --redColor: #9c0b07;
+  --badTextColor: #fe6666;
+  --highlightTextColor: #ffffff;
+  --fontName: "IBM Plex Mono", monospaced;
+
+  font-family: var(--fontName);
+  font-size: 18px;
+}
+
+body {
+  background: var(--blueColor);
+}
+
+.monitor {
+  width: 800px;
+  margin: 3em auto;
+  color: var(--grayColor);
+}
