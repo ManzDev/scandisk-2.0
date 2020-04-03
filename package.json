@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel src/index.html --port 8080",
-    "build": "parcel build src/index.html -d build --public-url /scandisk-lit-element/ && gh-pages -d build"
+    "build": "parcel build src/index.html -d build --public-url /$npm_package_name/ && gh-pages -d build"
   },
   "keywords": [
     "scandisk",
@@ -19,6 +19,7 @@
   "author": "Manz",
   "license": "ISC",
   "devDependencies": {
+    "cssnano": "^4.1.10",
     "gh-pages": "^2.2.0",
     "postcss-nesting": "^7.0.1"
   },
