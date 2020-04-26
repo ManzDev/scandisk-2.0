@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,oEAAoE,CAEpE,KACE,2BACF","file":"src.dcfa1fdb.css","sourceRoot":"../src","sourcesContent":["@import url(\"https://fonts.googleapis.com/css?family=IBM+Plex+Mono\");\r\n\r\nbody {\r\n  background: var(--blueColor);\r\n}\r\n"]}

@@ -32,7 +32,9 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.css=exports.unsafeCSS=exports.CSSResult=exports.supportsAdoptingStyleSheets=void 0;const e="adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype;exports.supportsAdoptingStyleSheets=e;const t=Symbol();class s{constructor(e,s){if(s!==t)throw new Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=e}get styleSheet(){return void 0===this._styleSheet&&(e?(this._styleSheet=new CSSStyleSheet,this._styleSheet.replaceSync(this.cssText)):this._styleSheet=null),this._styleSheet}toString(){return this.cssText}}exports.CSSResult=s;const r=e=>new s(String(e),t);exports.unsafeCSS=r;const o=e=>{if(e instanceof s)return e.cssText;if("number"==typeof e)return e;throw new Error(`Value passed to 'css' function must be a 'css' function result: ${e}. Use 'unsafeCSS' to pass non-literal values, but\n            take care to ensure page security.`)},n=(e,...r)=>{const n=r.reduce((t,s,r)=>t+o(s)+e[r+1],e[0]);return new s(n,t)};exports.css=n;
 },{}],"bhxD":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e={LitElement:!0,html:!0,svg:!0,TemplateResult:!0,SVGTemplateResult:!0};Object.defineProperty(exports,"html",{enumerable:!0,get:function(){return n.html}}),Object.defineProperty(exports,"svg",{enumerable:!0,get:function(){return n.svg}}),Object.defineProperty(exports,"TemplateResult",{enumerable:!0,get:function(){return n.TemplateResult}}),Object.defineProperty(exports,"SVGTemplateResult",{enumerable:!0,get:function(){return n.SVGTemplateResult}}),exports.LitElement=void 0;var t=require("lit-html/lib/shady-render.js"),r=require("./lib/updating-element.js");Object.keys(r).forEach(function(t){"default"!==t&&"__esModule"!==t&&(Object.prototype.hasOwnProperty.call(e,t)||Object.defineProperty(exports,t,{enumerable:!0,get:function(){return r[t]}}))});var s=require("./lib/decorators.js");Object.keys(s).forEach(function(t){"default"!==t&&"__esModule"!==t&&(Object.prototype.hasOwnProperty.call(e,t)||Object.defineProperty(exports,t,{enumerable:!0,get:function(){return s[t]}}))});var n=require("lit-html/lit-html.js"),o=require("./lib/css-tag.js");Object.keys(o).forEach(function(t){"default"!==t&&"__esModule"!==t&&(Object.prototype.hasOwnProperty.call(e,t)||Object.defineProperty(exports,t,{enumerable:!0,get:function(){return o[t]}}))}),(window.litElementVersions||(window.litElementVersions=[])).push("2.3.1");const i={};class l extends r.UpdatingElement{static getStyles(){return this.styles}static _getUniqueStyles(){if(this.hasOwnProperty(JSCompiler_renameProperty("_styles",this)))return;const e=this.getStyles();if(void 0===e)this._styles=[];else if(Array.isArray(e)){const t=(e,r)=>e.reduceRight((e,r)=>Array.isArray(r)?t(r,e):(e.add(r),e),r),r=t(e,new Set),s=[];r.forEach(e=>s.unshift(e)),this._styles=s}else this._styles=[e]}initialize(){super.initialize(),this.constructor._getUniqueStyles(),this.renderRoot=this.createRenderRoot(),window.ShadowRoot&&this.renderRoot instanceof window.ShadowRoot&&this.adoptStyles()}createRenderRoot(){return this.attachShadow({mode:"open"})}adoptStyles(){const e=this.constructor._styles;0!==e.length&&(void 0===window.ShadyCSS||window.ShadyCSS.nativeShadow?o.supportsAdoptingStyleSheets?this.renderRoot.adoptedStyleSheets=e.map(e=>e.styleSheet):this._needsShimAdoptedStyleSheets=!0:window.ShadyCSS.ScopingShim.prepareAdoptedCssText(e.map(e=>e.cssText),this.localName))}connectedCallback(){super.connectedCallback(),this.hasUpdated&&void 0!==window.ShadyCSS&&window.ShadyCSS.styleElement(this)}update(e){const t=this.render();super.update(e),t!==i&&this.constructor.render(t,this.renderRoot,{scopeName:this.localName,eventContext:this}),this._needsShimAdoptedStyleSheets&&(this._needsShimAdoptedStyleSheets=!1,this.constructor._styles.forEach(e=>{const t=document.createElement("style");t.textContent=e.cssText,this.renderRoot.appendChild(t)}))}render(){return i}}exports.LitElement=l,l.finalized=!0,l.render=t.render;
-},{"lit-html/lib/shady-render.js":"eBH8","./lib/updating-element.js":"fKvB","./lib/decorators.js":"FzpZ","lit-html/lit-html.js":"SPDu","./lib/css-tag.js":"ZFCR"}],"djkg":[function(require,module,exports) {
+},{"lit-html/lib/shady-render.js":"eBH8","./lib/updating-element.js":"fKvB","./lib/decorators.js":"FzpZ","lit-html/lit-html.js":"SPDu","./lib/css-tag.js":"ZFCR"}],"MgTz":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.random=void 0;const e=(e=1,o=6)=>e+~~(Math.random()*o);exports.random=e;
+},{}],"djkg":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=require("lit-element");class e extends t.LitElement{static get properties(){return{text:{type:String},href:{type:String}}}constructor(){super(),this.text=this.textContent,this.href=this.hasAttribute("href")?this.getAttribute("href"):"#"}static get styles(){return t.css`
       :host {
         display: inline-block;
@@ -41,11 +43,11 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 
       a {
         background: var(--darkgrayColor);
-        border: 0;
         font-family: var(--fontName);
         font-size: 1rem;
         color: var(--grayColor);
         outline: 0;
+        border: 0;
         padding: 2px;
         margin-right: 1em;
         box-shadow: 10px 8px 0 black;
@@ -69,21 +71,12 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
         content: " ⯈";
         color: var(--highlightColor);
       }
-    `}render(){return t.html`
-      <style>
-        ${this.styles}
-      </style>
-      <a href="${this.href}" target="_parent">${this.text}</a>
-    `}}exports.default=e,customElements.define("scandisk-button",e);
+    `}render(){return t.html` <a href="${this.href}" target="_parent">${this.text}</a> `}}exports.default=e,customElements.define("scandisk-button",e);
 },{"lit-element":"bhxD"}],"iYpT":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=require("lit-element");class e extends t.LitElement{static get properties(){return{value:{type:Number}}}constructor(){super(),this.value=0}static get styles(){return t.css`
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=require("lit-element");class s extends e.LitElement{static get properties(){return{value:{type:Number}}}constructor(){super(),this.value=this.getAttribute("value")||0}static get styles(){return e.css`
       .status-bar {
         display: grid;
         grid-template-columns: 1fr 600px;
-      }
-
-      .status-bar span[data-count]::before {
-        content: attr(data-count);
       }
 
       .progressbar {
@@ -94,19 +87,17 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
         background: var(--yellowColor);
         height: 100%;
       }
-    `}setProgress(t){this.value=t,this.render()}incProgress(t=15){const e=Math.min(100,parseInt(this.value)+t);this.setProgress(e)}render(){return t.html`
-      <style>
-        ${this.styles}
-      </style>
+    `}setProgress(e){this.value=e}incProgress(e=15){const s=Math.min(100,parseInt(this.value)+e);this.setProgress(s)}render(){return e.html`
+      <style></style>
       <div class="status-bar">
-        <span data-count="${this.value}">% completed</span>
+        <span>${this.value}% completed</span>
         <div class="progressbar">
           <div class="fillbar" style="width: ${this.value}%"></div>
         </div>
       </div>
-    `}}exports.default=e,customElements.define("scandisk-bar",e);
+    `}}exports.default=s,customElements.define("scandisk-bar",s);
 },{"lit-element":"bhxD"}],"SNrZ":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=require("lit-element"),s=a(require("./ScandiskButton.js")),e=a(require("./ScandiskBar.js"));function a(t){return t&&t.__esModule?t:{default:t}}const n=(t=1,s=6)=>t+~~(Math.random()*s);class r extends t.LitElement{static get properties(){return{currentStage:{type:Number},stages:{type:Array}}}constructor(){super(),this.currentStage=0,this.stages=[{name:"Media descriptor",status:"current"},{name:"File allocation tables",status:"pending"},{name:"Directory structure",status:"pending"},{name:"File system",status:"pending"},{name:"Free space",status:"pending"},{name:"Surface scan",status:"pending"}],this.scandiskBar=document.createElement("scandisk-bar")}start(t){t.appendChild(this),this.nextStage()}nextStage(){const t=n(1,6);this.currentStage<this.stages.length-1?(this.stages[this.currentStage].status=4==t?"fixed":"correct",this.currentStage++,this.stages[this.currentStage].status="current",this.scandiskBar.incProgress(),setTimeout(()=>this.nextStage(),n(500,2e3))):setTimeout(()=>this.finish(),n(500,2e3))}finish(){this.dispatchEvent(new CustomEvent("SCANDISK_SURFACE_START",{bubbles:!0})),this.remove()}static get styles(){return t.css`
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=require("lit-element"),s=require("../js/utils.js");require("./ScandiskButton.js"),require("./ScandiskBar.js");class e extends t.LitElement{static get properties(){return{currentStage:{type:Number},stages:{type:Array}}}constructor(){super(),this.currentStage=0,this.stages=[{name:"Media descriptor",status:"current"},{name:"File allocation tables",status:"pending"},{name:"Directory structure",status:"pending"},{name:"File system",status:"pending"},{name:"Free space",status:"pending"},{name:"Surface scan",status:"pending"}]}firstUpdated(){this.scandiskBar=this.shadowRoot.querySelector("scandisk-bar"),setTimeout(()=>this.processStage(),(0,s.random)(500,2e3))}nextStage(){this.currentStage++,this.currentStage<this.stages.length?(this.stages[this.currentStage].status="current",this.scandiskBar.incProgress(),setTimeout(()=>this.processStage(),(0,s.random)(500,2e3))):setTimeout(()=>this.finish(),(0,s.random)(500,2e3))}processStage(){const t=(0,s.random)(1,6);this.stages[this.currentStage].status=4===t?"fixed":"correct",this.nextStage()}finish(){this.dispatchEvent(new CustomEvent("SCANDISK_SURFACE_START",{composed:!0}))}static get styles(){return t.css`
       .list {
         display: grid;
         grid-template-columns: 125px 1fr;
@@ -140,9 +131,7 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
       hr {
         border: 1px solid var(--cyanColor);
       }
-    `}get stageList(){return this.stages.map(s=>t.html`
-          <span data-status="${s.status}"></span> <span>${s.name}</span>
-        `)}render(){return t.html`
+    `}get stageList(){return this.stages.map(s=>t.html` <span data-status="${s.status}"></span> <span>${s.name}</span> `)}render(){return t.html`
       <div class="screen">
         <p class="title">Microsoft ScanDisk</p>
         <hr />
@@ -156,11 +145,13 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
           <scandisk-button>Exit</scandisk-button>
         </div>
         <hr />
-        ${this.scandiskBar}
+        <scandisk-bar></scandisk-bar>
       </div>
-    `}}exports.default=r,customElements.define("scandisk-check",r);
-},{"lit-element":"bhxD","./ScandiskButton.js":"djkg","./ScandiskBar.js":"iYpT"}],"s4Qw":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=require("lit-element");const t=(e=1,t=6)=>e+~~(Math.random()*t);class r extends e.LitElement{static get properties(){return{readFlag:{type:String},type:{type:String}}}constructor(){super(),this.readFlag="",this.type||this.createBlock()}createBlock(){const e=~~(5*Math.random());this.type=["unused","unused","unused","used","full"][e]}readBlock(){let e=0;return"unused"===this.type&&(e=t(0,150)),"used"===this.type&&(e=t(50,500)),"full"===this.type&&(e=t(50,1e3)),[e+=this.checkBadBlock(),this.type]}checkBadBlock(){return 1===t(1,150)?(this.type="bad",t(2e3,4e3)):(this.readFlag="read",0)}setType(e){this.type=e}getType(){return this.type}static get styles(){return e.css`
+    `}}exports.default=e,customElements.define("scandisk-check",e);
+},{"lit-element":"bhxD","../js/utils.js":"MgTz","./ScandiskButton.js":"djkg","./ScandiskBar.js":"iYpT"}],"U8nX":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.classMap=void 0;var t=require("../lit-html.js");class e{constructor(t){this.classes=new Set,this.changed=!1,this.element=t;const e=(t.getAttribute("class")||"").split(/\s+/);for(const s of e)this.classes.add(s)}add(t){this.classes.add(t),this.changed=!0}remove(t){this.classes.delete(t),this.changed=!0}commit(){if(this.changed){let t="";this.classes.forEach(e=>t+=e+" "),this.element.setAttribute("class",t)}}}const s=new WeakMap,i=(0,t.directive)(i=>a=>{if(!(a instanceof t.AttributePart)||a instanceof t.PropertyPart||"class"!==a.committer.name||a.committer.parts.length>1)throw new Error("The `classMap` directive must be used in the `class` attribute and must be the only part in the attribute.");const{committer:c}=a,{element:r}=c;let o=s.get(a);void 0===o&&(r.setAttribute("class",c.strings.join(" ")),s.set(a,o=new Set));const n=r.classList||new e(r);o.forEach(t=>{t in i||(n.remove(t),o.delete(t))});for(const t in i){const e=i[t];e!=o.has(t)&&(e?(n.add(t),o.add(t)):(n.remove(t),o.delete(t)))}"function"==typeof n.commit&&n.commit()});exports.classMap=i;
+},{"../lit-html.js":"SPDu"}],"s4Qw":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=require("lit-element"),t=require("lit-html/directives/class-map"),r=require("../js/utils.js");const s=50,a=150,o=125;class l extends e.LitElement{static get properties(){return{read:{type:Boolean},type:{type:String}}}constructor(){super(),this.read=!1,this.type="unused"}setRandomType(){const e=~~(5*Math.random());this.type=["unused","unused","unused","used","full"][e]}getTimeRead(){return{unused:()=>(0,r.random)(0*s,a),used:()=>(0,r.random)(1*s,3*a),full:()=>(0,r.random)(1*s,7*a),bad:()=>(0,r.random)(40*s,27*a)}[this.type]()}isBadBlock(){return 1===(0,r.random)(1,o)}markBad(){this.type="bad"}readBlock(){return this.read=!0,this.isBadBlock()&&this.markBad(),this.getTimeRead()}static get styles(){return e.css`
       :host {
         display: inline-block;
         background: black;
@@ -191,20 +182,18 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
         color: black;
       }
 
+      .read::before {
+        background: var(--yellowColor);
+      }
+
       .bad::before {
         content: "B";
         background: black;
         color: var(--badTextColor);
       }
-
-      .read::before {
-        background: var(--yellowColor);
-      }
-    `}render(){return e.html`
-      <span class="block ${this.type} ${this.readFlag}"></span>
-    `}}exports.default=r,customElements.define("scandisk-surface-block",r);
-},{"lit-element":"bhxD"}],"GAWn":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var s=require("lit-element"),e=i(require("./ScandiskButton.js")),t=i(require("./ScandiskBar.js")),r=i(require("./ScandiskSurfaceBlock.js"));function i(s){return s&&s.__esModule?s:{default:s}}function a(s,e){return l(s)||c(s,e)||n()}function n(){throw new TypeError("Invalid attempt to destructure non-iterable instance")}function c(s,e){if(Symbol.iterator in Object(s)||"[object Arguments]"===Object.prototype.toString.call(s)){var t=[],r=!0,i=!1,a=void 0;try{for(var n,c=s[Symbol.iterator]();!(r=(n=c.next()).done)&&(t.push(n.value),!e||t.length!==e);r=!0);}catch(l){i=!0,a=l}finally{try{r||null==c.return||c.return()}finally{if(i)throw a}}return t}}function l(s){if(Array.isArray(s))return s}const o=518,u=5e5+~~(1e5*Math.random()),d=~~(u/o),k=(s=1,e=6)=>s+~~(Math.random()*e);class f extends s.LitElement{static get properties(){return{failedBlocks:{type:Number},currentBlock:{type:Number},blocks:{type:Array},scandiskBar:{type:s.LitElement}}}constructor(){super(),this.failedBlocks=0,this.currentBlock=0,this.blocks=[],this.scandiskBar=new t.default,this.genSurface()}start(s){s.appendChild(this),this.nextBlock()}genSurface(){for(let s=0;s<o;s++){const s=new r.default;this.blocks.push(s)}}get surfaceBlocks(){return this.blocks.map(s=>s)}get readClusters(){return(this.currentBlock*d).toLocaleString()}get badClusters(){return this.failedBlocks.toLocaleString()}nextBlock(){const s=a(this.blocks[this.currentBlock].readBlock(),2),e=s[0];"bad"==s[1]&&(this.failedBlocks=++this.failedBlocks),this.currentBlock<o-1?setTimeout(()=>this.nextBlock(),e):this.finish(),this.scandiskBar.setProgress(~~(this.currentBlock/o*100)),this.currentBlock++}finish(){this.currentCluster=u,this.dispatchEvent(new CustomEvent("SCANDISK_SUMMARY_START",{bubbles:!0})),this.remove()}static get styles(){return s.css`
+    `}get classNames(){return{read:this.read,unused:"unused"===this.type,used:"used"===this.type,full:"full"===this.type,bad:"bad"===this.type}}render(){return e.html` <span class="block ${(0,t.classMap)(this.classNames)}"></span> `}}exports.default=l,customElements.define("scandisk-surface-block",l);
+},{"lit-element":"bhxD","lit-html/directives/class-map":"U8nX","../js/utils.js":"MgTz"}],"GAWn":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var s=require("lit-element");require("./ScandiskButton.js");var e=r(require("./ScandiskBar.js")),t=r(require("./ScandiskSurfaceBlock.js"));function r(s){return s&&s.__esModule?s:{default:s}}const i=518,a=5e5+~~(1e5*Math.random()),c=~~(a/i);class n extends s.LitElement{static get properties(){return{failedBlocks:{type:Number},currentIndex:{type:Number},blocks:{type:Array},scandiskBar:{type:e.default}}}constructor(){super(),this.failedBlocks=0,this.currentIndex=0,this.genSurfaceBlocks()}firstUpdated(){this.scandiskBar=this.shadowRoot.querySelector("scandisk-bar"),this.start()}genSurfaceBlocks(){this.blocks=[];for(let s=0;s<i;s++){const s=new t.default;s.setRandomType(),this.blocks.push(s)}}get readClusters(){return(this.currentIndex*c).toLocaleString()}get badClusters(){return this.failedBlocks.toLocaleString()}nextBlock(){const s=this.blocks[this.currentIndex],e=s.readBlock();"bad"===s.type&&this.failedBlocks++,this.currentIndex<i-1?setTimeout(()=>this.nextBlock(),e):this.finish();const t=~~(this.currentIndex/i*100);this.scandiskBar.setProgress(t),this.currentIndex++}start(){this.nextBlock()}finish(){this.currentCluster=a,this.dispatchEvent(new CustomEvent("SCANDISK_SUMMARY_START",{detail:{value:this.failedBlocks},composed:!0}))}static get styles(){return s.css`
       .screen {
         background: var(--grayColor);
         color: black;
@@ -213,7 +202,6 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
         margin-bottom: 30px;
         box-shadow: 10px 10px 0 black;
         padding: 20px;
-
         display: grid;
         grid-template-columns: 2fr 1.35fr;
         grid-template-rows: 4fr 0.4fr;
@@ -238,26 +226,23 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
         grid-column: span 2;
         text-align: center;
       }
-      ul {
-        margin-left: 2em;
-      }
       hr {
         border: 1px solid var(--cyanColor);
       }
     `}render(){return s.html`
       <div class="screen">
-        <div class="surface-scan">${this.surfaceBlocks}</div>
+        <div class="surface-scan">${this.blocks}</div>
         <div class="drive-info">
           <p>Drive C:</p>
           <ul class="data">
-            <li class="total"><span>${u.toLocaleString()}</span> clusters</li>
+            <li class="total"><span>${a.toLocaleString()}</span> clusters</li>
             <li class="examined"><span>${this.readClusters}</span> examined</li>
             <li class="badc"><span>${this.badClusters}</span> found bad</li>
           </ul>
           <ul class="legend">
             <li>
               <scandisk-surface-block type="unused"></scandisk-surface-block> =
-              <var>${d.toLocaleString()}</var> clusters
+              <var>${c.toLocaleString()}</var> clusters
             </li>
             <li><scandisk-surface-block type="unused"></scandisk-surface-block> unused clusters</li>
             <li><scandisk-surface-block type="used"></scandisk-surface-block> some used clusters</li>
@@ -271,10 +256,10 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
         </div>
       </div>
       <hr />
-      ${this.scandiskBar}
-    `}}exports.default=f,customElements.define("scandisk-surface",f);
+      <scandisk-bar></scandisk-bar>
+    `}}exports.default=n,customElements.define("scandisk-surface",n);
 },{"lit-element":"bhxD","./ScandiskButton.js":"djkg","./ScandiskBar.js":"iYpT","./ScandiskSurfaceBlock.js":"s4Qw"}],"ymvw":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var t=require("lit-element"),e=r(require("./ScandiskButton.js")),s=r(require("./ScandiskBar.js"));function r(t){return t&&t.__esModule?t:{default:t}}class n extends t.LitElement{constructor(){super()}static get styles(){return t.css`
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var r=require("lit-element");require("./ScandiskButton.js"),require("./ScandiskBar.js");class t extends r.LitElement{static get properties(){return{errors:{type:Number}}}constructor(){super(),this.errors=this.getAttribute("errors")||0}static get styles(){return r.css`
       .title {
         color: var(--cyanColor);
         margin-bottom: 0;
@@ -288,19 +273,40 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
       hr {
         border: 1px solid var(--cyanColor);
       }
-    `}start(t){t.appendChild(this)}render(){return t.html`
+    `}get errorMessage(){return 0===this.errors?r.html`<p>Scandisk not found problems on drive C.</p>`:r.html`<p>ScanDisk found and fixed <span>${this.errors}</span> problems on drive C.</p>`}render(){return r.html`
       <div class="screen">
         <p class="title">Microsoft ScanDisk</p>
         <hr />
-        <p>ScanDisk found and fixed <span></span> problems on drive C.</p>
+        ${this.errorMessage}
         <div class="buttons">
           <scandisk-button href="https://twitter.com/Manz/status/1124749875315380224">More info</scandisk-button>
           <scandisk-button href="#">Exit</scandisk-button>
         </div>
       </div>
       <hr />
-    `}}exports.default=n,customElements.define("scandisk-summary",n);
-},{"lit-element":"bhxD","./ScandiskButton.js":"djkg","./ScandiskBar.js":"iYpT"}],"Focm":[function(require,module,exports) {
-"use strict";var e=r(require("./components/ScandiskCheck.js")),t=r(require("./components/ScandiskSurface.js")),n=r(require("./components/ScandiskSummary.js"));function r(e){return e&&e.__esModule?e:{default:e}}const s=document.querySelector(".monitor"),u=new e.default;u.start(s),document.addEventListener("SCANDISK_SURFACE_START",()=>(new t.default).start(s)),document.addEventListener("SCANDISK_SUMMARY_START",()=>(new n.default).start(s));
-},{"./components/ScandiskCheck.js":"SNrZ","./components/ScandiskSurface.js":"GAWn","./components/ScandiskSummary.js":"ymvw"}]},{},["Focm"], null)
-//# sourceMappingURL=/scandisk-2.0/src.7fc199d0.js.map
+    `}}exports.default=t,customElements.define("scandisk-summary",t);
+},{"lit-element":"bhxD","./ScandiskButton.js":"djkg","./ScandiskBar.js":"iYpT"}],"qhLY":[function(require,module,exports) {
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=require("lit-element");require("./ScandiskCheck.js"),require("./ScandiskSurface.js"),require("./ScandiskSummary.js");class r extends e.LitElement{static get properties(){return{phase:{type:Number},errors:{type:Number}}}constructor(){super(),this.phase=0,this.errors=0,document.body.style.setProperty("--blueColor","#0028aa")}firstUpdated(){this.addEventListener("SCANDISK_SURFACE_START",()=>this.phase=1),this.addEventListener("SCANDISK_SUMMARY_START",e=>{this.phase=2,this.errors=e.detail.value})}currentPhase(){return{0:e.html`<scandisk-check></scandisk-check>`,1:e.html`<scandisk-surface></scandisk-surface>`,2:e.html`<scandisk-summary errors="${this.errors}"></scandisk-summary>`}[this.phase]}static get styles(){return e.css`
+      :host {
+        --grayColor: #bcbdaa;
+        --darkgrayColor: #525252;
+        --yellowColor: #fffa51;
+        --cyanColor: #59ffff;
+        --emeraldColor: #184343;
+        --lightEmeraldColor: #38a6a6;
+        --redColor: #9c0b07;
+        --badTextColor: #fe6666;
+        --highlightTextColor: #fff;
+        --fontName: "IBM Plex Mono", monospaced;
+      }
+
+      .monitor {
+        width: 800px;
+        margin: 3em auto;
+        color: var(--grayColor);
+        font-family: var(--fontName);
+        font-size: 18px;
+      }
+    `}render(){return e.html` <div class="monitor">${this.currentPhase()}</div>`}}exports.default=r,customElements.define("scandisk-app",r);
+},{"lit-element":"bhxD","./ScandiskCheck.js":"SNrZ","./ScandiskSurface.js":"GAWn","./ScandiskSummary.js":"ymvw"}]},{},["qhLY"], null)
+//# sourceMappingURL=/scandisk-2.0/ScandiskApp.4faa8465.js.map
