@@ -3,13 +3,13 @@ import { LitElement, html, css } from "lit-element";
 export default class ScandiskBar extends LitElement {
   static get properties() {
     return {
-      value: { type: Number }
+      value: { type: Number },
     };
   }
 
   constructor() {
     super();
-    this.value = 0;
+    this.value = this.getAttribute("value") || 0;
   }
 
   static get styles() {
@@ -17,10 +17,6 @@ export default class ScandiskBar extends LitElement {
       .status-bar {
         display: grid;
         grid-template-columns: 1fr 600px;
-      }
-
-      .status-bar span[data-count]::before {
-        content: attr(data-count);
       }
 
       .progressbar {
@@ -36,7 +32,6 @@ export default class ScandiskBar extends LitElement {
 
   setProgress(value) {
     this.value = value;
-    this.render();
   }
 
   incProgress(step = 15) {
@@ -46,11 +41,9 @@ export default class ScandiskBar extends LitElement {
 
   render() {
     return html`
-      <style>
-        ${this.styles}
-      </style>
+      <style></style>
       <div class="status-bar">
-        <span data-count="${this.value}">% completed</span>
+        <span>${this.value}% completed</span>
         <div class="progressbar">
           <div class="fillbar" style="width: ${this.value}%"></div>
         </div>

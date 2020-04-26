@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit-element";
-import ScandiskButton from "./ScandiskButton.js";
+import "./ScandiskButton.js";
 import ScandiskBar from "./ScandiskBar.js";
 import ScandiskSurfaceBlock from "./ScandiskSurfaceBlock.js";
 
@@ -10,45 +10,39 @@ const NUM_BLOCKS = 518;
 const CLUSTERS = ~~(Math.random() * 100000) + 500000;
 const CLUSTERS_PER_BLOCK = ~~(CLUSTERS / NUM_BLOCKS);
 
-const random = (min = 1, max = 6) => min + ~~(Math.random() * max);
-
 export default class ScandiskSurface extends LitElement {
   static get properties() {
     return {
       failedBlocks: { type: Number },
-      currentBlock: { type: Number },
+      currentIndex: { type: Number },
       blocks: { type: Array },
-      scandiskBar: { type: LitElement }
+      scandiskBar: { type: ScandiskBar },
     };
   }
 
   constructor() {
     super();
     this.failedBlocks = 0;
-    this.currentBlock = 0;
+    this.currentIndex = 0;
+    this.genSurfaceBlocks();
+  }
+
+  firstUpdated() {
+    this.scandiskBar = this.shadowRoot.querySelector("scandisk-bar");
+    this.start();
+  }
+
+  genSurfaceBlocks() {
     this.blocks = [];
-    this.scandiskBar = new ScandiskBar(); // document.createElement("scandisk-bar");
-    this.genSurface();
-  }
-
-  start(parent) {
-    parent.appendChild(this);
-    this.nextBlock();
-  }
-
-  genSurface() {
     for (let i = 0; i < NUM_BLOCKS; i++) {
       const block = new ScandiskSurfaceBlock();
+      block.setRandomType();
       this.blocks.push(block);
     }
   }
 
-  get surfaceBlocks() {
-    return this.blocks.map(item => item);
-  }
-
   get readClusters() {
-    return (this.currentBlock * CLUSTERS_PER_BLOCK).toLocaleString();
+    return (this.currentIndex * CLUSTERS_PER_BLOCK).toLocaleString();
   }
 
   get badClusters() {
@@ -56,21 +50,37 @@ export default class ScandiskSurface extends LitElement {
   }
 
   nextBlock() {
-    const [time, type] = this.blocks[this.currentBlock].readBlock();
+    const currentBlock = this.blocks[this.currentIndex];
 
-    if (type == "bad") this.failedBlocks = ++this.failedBlocks;
+    const readTime = currentBlock.readBlock();
+    const readType = currentBlock.type;
 
-    if (this.currentBlock < NUM_BLOCKS - 1) setTimeout(() => this.nextBlock(), time);
+    if (readType === "bad") {
+      this.failedBlocks++;
+    }
+
+    if (this.currentIndex < NUM_BLOCKS - 1) setTimeout(() => this.nextBlock(), readTime);
     else this.finish();
 
-    this.scandiskBar.setProgress(~~((this.currentBlock / NUM_BLOCKS) * 100));
-    this.currentBlock++;
+    const progress = ~~((this.currentIndex / NUM_BLOCKS) * 100);
+    this.scandiskBar.setProgress(progress);
+    this.currentIndex++;
+  }
+
+  start() {
+    this.nextBlock();
   }
 
   finish() {
     this.currentCluster = CLUSTERS;
-    this.dispatchEvent(new CustomEvent("SCANDISK_SUMMARY_START", { bubbles: true }));
-    this.remove();
+    this.dispatchEvent(
+      new CustomEvent("SCANDISK_SUMMARY_START", {
+        detail: {
+          value: this.failedBlocks,
+        },
+        composed: true,
+      })
+    );
   }
 
   static get styles() {
@@ -83,7 +93,6 @@ export default class ScandiskSurface extends LitElement {
         margin-bottom: 30px;
         box-shadow: 10px 10px 0 black;
         padding: 20px;
-
         display: grid;
         grid-template-columns: 2fr 1.35fr;
         grid-template-rows: 4fr 0.4fr;
@@ -108,9 +117,6 @@ export default class ScandiskSurface extends LitElement {
         grid-column: span 2;
         text-align: center;
       }
-      ul {
-        margin-left: 2em;
-      }
       hr {
         border: 1px solid var(--cyanColor);
       }
@@ -120,7 +126,7 @@ export default class ScandiskSurface extends LitElement {
   render() {
     return html`
       <div class="screen">
-        <div class="surface-scan">${this.surfaceBlocks}</div>
+        <div class="surface-scan">${this.blocks}</div>
         <div class="drive-info">
           <p>Drive C:</p>
           <ul class="data">
@@ -145,7 +151,7 @@ export default class ScandiskSurface extends LitElement {
         </div>
       </div>
       <hr />
-      ${this.scandiskBar}
+      <scandisk-bar></scandisk-bar>
     `;
   }
 }

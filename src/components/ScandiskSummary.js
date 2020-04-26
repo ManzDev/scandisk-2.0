@@ -1,10 +1,17 @@
 import { LitElement, html, css } from "lit-element";
-import ScandiskButton from "./ScandiskButton.js";
-import ScandiskBar from "./ScandiskBar.js";
+import "./ScandiskButton.js";
+import "./ScandiskBar.js";
 
 export default class ScandiskSummary extends LitElement {
+  static get properties() {
+    return {
+      errors: { type: Number },
+    };
+  }
+
   constructor() {
     super();
+    this.errors = this.getAttribute("errors") || 0;
   }
 
   static get styles() {
@@ -25,8 +32,9 @@ export default class ScandiskSummary extends LitElement {
     `;
   }
 
-  start(parent) {
-    parent.appendChild(this);
+  get errorMessage() {
+    if (this.errors === 0) return html`<p>Scandisk not found problems on drive C.</p>`;
+    return html`<p>ScanDisk found and fixed <span>${this.errors}</span> problems on drive C.</p>`;
   }
 
   render() {
@@ -34,7 +42,7 @@ export default class ScandiskSummary extends LitElement {
       <div class="screen">
         <p class="title">Microsoft ScanDisk</p>
         <hr />
-        <p>ScanDisk found and fixed <span></span> problems on drive C.</p>
+        ${this.errorMessage}
         <div class="buttons">
           <scandisk-button href="https://twitter.com/Manz/status/1124749875315380224">More info</scandisk-button>
           <scandisk-button href="#">Exit</scandisk-button>

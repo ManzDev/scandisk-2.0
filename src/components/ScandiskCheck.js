@@ -1,14 +1,13 @@
 import { LitElement, html, css } from "lit-element";
-import ScandiskButton from "./ScandiskButton.js";
-import ScandiskBar from "./ScandiskBar.js";
-
-const random = (min = 1, max = 6) => min + ~~(Math.random() * max);
+import { random } from "../js/utils.js";
+import "./ScandiskButton.js";
+import "./ScandiskBar.js";
 
 export default class ScandiskCheck extends LitElement {
   static get properties() {
     return {
       currentStage: { type: Number },
-      stages: { type: Array }
+      stages: { type: Array },
     };
   }
 
@@ -21,31 +20,32 @@ export default class ScandiskCheck extends LitElement {
       { name: "Directory structure", status: "pending" },
       { name: "File system", status: "pending" },
       { name: "Free space", status: "pending" },
-      { name: "Surface scan", status: "pending" }
+      { name: "Surface scan", status: "pending" },
     ];
-    this.scandiskBar = document.createElement("scandisk-bar");
   }
 
-  start(parent) {
-    parent.appendChild(this);
-    this.nextStage();
+  firstUpdated() {
+    this.scandiskBar = this.shadowRoot.querySelector("scandisk-bar");
+    setTimeout(() => this.processStage(), random(500, 2000));
   }
 
   nextStage() {
-    const rnd = random(1, 6);
-
-    if (this.currentStage < this.stages.length - 1) {
-      this.stages[this.currentStage].status = rnd == 4 ? "fixed" : "correct";
-      this.currentStage++;
+    this.currentStage++;
+    if (this.currentStage < this.stages.length) {
       this.stages[this.currentStage].status = "current";
       this.scandiskBar.incProgress();
-      setTimeout(() => this.nextStage(), random(500, 2000));
+      setTimeout(() => this.processStage(), random(500, 2000));
     } else setTimeout(() => this.finish(), random(500, 2000));
   }
 
+  processStage() {
+    const stageStatus = random(1, 6);
+    this.stages[this.currentStage].status = stageStatus === 4 ? "fixed" : "correct";
+    this.nextStage();
+  }
+
   finish() {
-    this.dispatchEvent(new CustomEvent("SCANDISK_SURFACE_START", { bubbles: true }));
-    this.remove();
+    this.dispatchEvent(new CustomEvent("SCANDISK_SURFACE_START", { composed: true }));
   }
 
   static get styles() {
@@ -87,12 +87,7 @@ export default class ScandiskCheck extends LitElement {
   }
 
   get stageList() {
-    return this.stages.map(
-      item =>
-        html`
-          <span data-status="${item.status}"></span> <span>${item.name}</span>
-        `
-    );
+    return this.stages.map((item) => html` <span data-status="${item.status}"></span> <span>${item.name}</span> `);
   }
 
   render() {
@@ -110,7 +105,7 @@ export default class ScandiskCheck extends LitElement {
           <scandisk-button>Exit</scandisk-button>
         </div>
         <hr />
-        ${this.scandiskBar}
+        <scandisk-bar></scandisk-bar>
       </div>
     `;
   }

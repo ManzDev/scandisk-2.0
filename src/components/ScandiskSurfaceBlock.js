@@ -1,54 +1,52 @@
 import { LitElement, html, css } from "lit-element";
+import { classMap } from "lit-html/directives/class-map";
+import { random } from "../js/utils.js";
 
-const random = (min = 1, max = 6) => min + ~~(Math.random() * max);
+const MIN_BASE_READ_TIME = 50;
+const MAX_BASE_READ_TIME = 150;
+const BAD_SECTOR_PROBABILITY = 125;
 
 export default class ScandiskSurfaceBlock extends LitElement {
   static get properties() {
     return {
-      readFlag: { type: String },
-      type: { type: String }
+      read: { type: Boolean },
+      type: { type: String },
     };
   }
 
   constructor() {
     super();
-    this.readFlag = "";
-    if (!this.type) this.createBlock();
+    this.read = false;
+    this.type = "unused";
   }
 
-  createBlock() {
-    const rnd = ~~(Math.random() * 5);
-    this.type = ["unused", "unused", "unused", "used", "full"][rnd];
+  setRandomType() {
+    const typeIndex = ~~(Math.random() * 5);
+    this.type = ["unused", "unused", "unused", "used", "full"][typeIndex];
+  }
+
+  getTimeRead() {
+    const time = {
+      unused: () => random(MIN_BASE_READ_TIME * 0, MAX_BASE_READ_TIME),
+      used: () => random(MIN_BASE_READ_TIME * 1, MAX_BASE_READ_TIME * 3),
+      full: () => random(MIN_BASE_READ_TIME * 1, MAX_BASE_READ_TIME * 7),
+      bad: () => random(MIN_BASE_READ_TIME * 40, MAX_BASE_READ_TIME * 27),
+    };
+    return time[this.type]();
+  }
+
+  isBadBlock() {
+    return random(1, BAD_SECTOR_PROBABILITY) === 1;
+  }
+
+  markBad() {
+    this.type = "bad";
   }
 
   readBlock() {
-    let time = 0;
-
-    if (this.type === "unused") time = random(0, 150);
-    if (this.type === "used") time = random(50, 500);
-    if (this.type === "full") time = random(50, 1000);
-
-    time += this.checkBadBlock();
-
-    return [time, this.type];
-  }
-
-  checkBadBlock() {
-    if (random(1, 150) === 1) {
-      this.type = "bad";
-      return random(2000, 4000);
-    }
-
-    this.readFlag = "read";
-    return 0;
-  }
-
-  setType(type) {
-    this.type = type;
-  }
-
-  getType() {
-    return this.type;
+    this.read = true;
+    if (this.isBadBlock()) this.markBad();
+    return this.getTimeRead();
   }
 
   static get styles() {
@@ -83,22 +81,30 @@ export default class ScandiskSurfaceBlock extends LitElement {
         color: black;
       }
 
+      .read::before {
+        background: var(--yellowColor);
+      }
+
       .bad::before {
         content: "B";
         background: black;
         color: var(--badTextColor);
       }
-
-      .read::before {
-        background: var(--yellowColor);
-      }
     `;
   }
 
+  get classNames() {
+    return {
+      read: this.read,
+      unused: this.type === "unused",
+      used: this.type === "used",
+      full: this.type === "full",
+      bad: this.type === "bad",
+    };
+  }
+
   render() {
-    return html`
-      <span class="block ${this.type} ${this.readFlag}"></span>
-    `;
+    return html` <span class="block ${classMap(this.classNames)}"></span> `;
   }
 }
 

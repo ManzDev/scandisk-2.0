@@ -4,7 +4,7 @@ export default class ScandiskButton extends LitElement {
   static get properties() {
     return {
       text: { type: String },
-      href: { type: String }
+      href: { type: String },
     };
   }
 
@@ -23,11 +23,11 @@ export default class ScandiskButton extends LitElement {
 
       a {
         background: var(--darkgrayColor);
-        border: 0;
         font-family: var(--fontName);
         font-size: 1rem;
         color: var(--grayColor);
         outline: 0;
+        border: 0;
         padding: 2px;
         margin-right: 1em;
         box-shadow: 10px 8px 0 black;
@@ -55,12 +55,7 @@ export default class ScandiskButton extends LitElement {
   }
 
   render() {
-    return html`
-      <style>
-        ${this.styles}
-      </style>
-      <a href="${this.href}" target="_parent">${this.text}</a>
-    `;
+    return html` <a href="${this.href}" target="_parent">${this.text}</a> `;
   }
 }
 
