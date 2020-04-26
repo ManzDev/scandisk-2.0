@@ -2,10 +2,10 @@
   "name": "scandisk-2.0",
   "version": "2.0.0",
   "description": "Visual Demo of Microsoft Scandisk for MS-DOS implemented with LitElement (WebComponents)",
-  "main": "index.html",
+  "main": "src/index.html",
   "scripts": {
     "start": "parcel src/index.html --port 8080",
-    "build": "parcel build src/index.html -d build --public-url /$npm_package_name/ && gh-pages -d build"
+    "build": "parcel build src/index.html --public-url /$npm_package_name/ -d build && gh-pages -d build"
   },
   "keywords": [
     "scandisk",
@@ -28,7 +28,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "gh-pages": "^2.2.0",
-    "parcel": "^2.0.0-alpha.3.2",
     "postcss-nesting": "^7.0.1",
     "stylelint": "^13.3.3",
     "stylelint-config-prettier": "^8.0.1",
